@@ -1,5 +1,6 @@
 package ru.wish.tv_schedule.domain.util
 
+// T — это параметр типа (type parameter) в обобщённом (generic) (может быть любым типом данных)
 sealed class Resource<T>(
     val data: T? = null,
     val message: String? = null

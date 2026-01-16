@@ -9,7 +9,7 @@ import ru.wish.tv_schedule.data.model.Episode
 @Dao
 interface EpisodeDao {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE) // Стратегия конфликта REPLACE означает, что если эпизод с таким же первичным ключом уже существует, он будет заменен.
     suspend fun insertEpisodes(episodes: List<Episode>)
 
     @Query("SELECT * FROM episodes WHERE country = :country AND airdate = :date")

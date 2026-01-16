@@ -13,7 +13,7 @@ import androidx.navigation.NavController
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-@RequiresApi(Build.VERSION_CODES.O)
+@RequiresApi(Build.VERSION_CODES.O) //Требует API уровня 26 (Android 8.0) из-за использования LocalDate и DateTimeFormatter
 @Composable
 fun InputScreen(navController: NavController) {
     var country by remember { mutableStateOf(TextFieldValue("")) }

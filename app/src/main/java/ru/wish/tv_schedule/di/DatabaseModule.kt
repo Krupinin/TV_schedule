@@ -11,10 +11,9 @@ import ru.wish.tv_schedule.data.local.AppDatabase
 import ru.wish.tv_schedule.data.local.EpisodeDao
 import javax.inject.Singleton
 
-@Module
-@InstallIn(SingletonComponent::class)
+@Module // Указывает, что это модуль для предоставления зависимостей
+@InstallIn(SingletonComponent::class) // Устанавливает модуль в SingletonComponent, что означает, что предоставляемые зависимости будут singleton'ами на протяжении всего приложения.
 object DatabaseModule {
-
     @Provides
     @Singleton
     fun provideAppDatabase(@ApplicationContext context: Context): AppDatabase {

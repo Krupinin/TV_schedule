@@ -8,6 +8,7 @@ import ru.wish.tv_schedule.domain.util.Resource
 import java.io.IOException
 import javax.inject.Inject
 
+// реализация интерфейса ScheduleRepository (domain/repository/Sch....)
 class ScheduleRepositoryImpl @Inject constructor(
     private val api: TVMazeApi,
     private val dao: EpisodeDao
@@ -15,20 +16,20 @@ class ScheduleRepositoryImpl @Inject constructor(
 
     override suspend fun getSchedule(country: String, date: String): Resource<List<Episode>> {
         return try {
-            // First, try to get from cache
-            val cached = dao.getEpisodesByCountryAndDate(country, date)
-            if (cached.isNotEmpty()) {
-                return Resource.Success(cached)
-            }
 
-            // If no cache, fetch from API
+//            val cached = dao.getEpisodesByCountryAndDate(country, date)
+//            if (cached.isNotEmpty()) {
+//                return Resource.Success(cached)
+//            }
+
+            // дергаем API
             val response = api.getSchedule(country, date)
-            // Save to cache with country
+            // Добавляем страну к каждому эпизоду
             val episodesWithCountry = response.map { it.copy(country = country) }
             dao.insertEpisodes(episodesWithCountry)
             Resource.Success(episodesWithCountry)
         } catch (_: IOException) {
-            // Network error, try cache
+            // Network error
             val cached = dao.getEpisodesByCountryAndDate(country, date)
             if (cached.isNotEmpty()) {
                 Resource.Success(cached)

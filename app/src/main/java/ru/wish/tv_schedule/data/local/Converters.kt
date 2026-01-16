@@ -1,3 +1,7 @@
+// методы для конвертации типов данных при работе с базой данных Room
+// аннотации @TypeConverter, указывают Room использовать эти методы автоматически
+// Gson для сериализации (toJson) и десериализации (fromJson)
+
 package ru.wish.tv_schedule.data.local
 
 import androidx.room.TypeConverter

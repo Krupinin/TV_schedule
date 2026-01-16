@@ -9,6 +9,7 @@ class GetScheduleUseCase @Inject constructor(
     private val repository: ScheduleRepository
 ) {
 
+    // operator позволяет вызывать use case как функцию: useCase(country, date)
     suspend operator fun invoke(country: String, date: String): Resource<List<Episode>> {
         return repository.getSchedule(country, date)
     }
