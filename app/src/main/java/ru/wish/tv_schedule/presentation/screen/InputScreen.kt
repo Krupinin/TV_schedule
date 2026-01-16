@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.TextFieldValue
@@ -21,9 +22,10 @@ import androidx.compose.material3.ExposedDropdownMenuBox
 @Composable
 fun InputScreen(navController: NavController) {
     val countries = listOf("ru", "us", "fr")
-    var country by remember { mutableStateOf("") }
-    var expanded by remember { mutableStateOf(false) }
-    var date by remember { mutableStateOf(TextFieldValue(LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE))) }
+    var country by rememberSaveable { mutableStateOf("") }
+    var expanded by rememberSaveable { mutableStateOf(false) }
+    var dateText by rememberSaveable { mutableStateOf(LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE)) }
+    val date = TextFieldValue(dateText)
 
     Column(
         modifier = Modifier
@@ -76,7 +78,7 @@ fun InputScreen(navController: NavController) {
 
         OutlinedTextField(
             value = date,
-            onValueChange = { date = it },
+            onValueChange = { dateText = it.text },
             label = { Text("Date (YYYY-MM-DD)") },
             modifier = Modifier.fillMaxWidth()
         )
@@ -85,8 +87,8 @@ fun InputScreen(navController: NavController) {
 
         Button(
             onClick = {
-                if (country.isNotBlank() && date.text.isNotBlank()) {
-                    navController.navigate("schedule/$country/${date.text}")
+                if (country.isNotBlank() && dateText.isNotBlank()) {
+                    navController.navigate("schedule/$country/$dateText")
                 }
             },
             modifier = Modifier.fillMaxWidth()
