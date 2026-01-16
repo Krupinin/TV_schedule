@@ -16,19 +16,20 @@ class ScheduleRepositoryImpl @Inject constructor(
     override suspend fun getSchedule(country: String, date: String): Resource<List<Episode>> {
         return try {
             // First, try to get from cache
-            val cached = dao.getEpisodesByDate(date)
+            val cached = dao.getEpisodesByCountryAndDate(country, date)
             if (cached.isNotEmpty()) {
                 return Resource.Success(cached)
             }
 
             // If no cache, fetch from API
             val response = api.getSchedule(country, date)
-            // Save to cache
-            dao.insertEpisodes(response)
-            Resource.Success(response)
+            // Save to cache with country
+            val episodesWithCountry = response.map { it.copy(country = country) }
+            dao.insertEpisodes(episodesWithCountry)
+            Resource.Success(episodesWithCountry)
         } catch (_: IOException) {
             // Network error, try cache
-            val cached = dao.getEpisodesByDate(date)
+            val cached = dao.getEpisodesByCountryAndDate(country, date)
             if (cached.isNotEmpty()) {
                 Resource.Success(cached)
             } else {

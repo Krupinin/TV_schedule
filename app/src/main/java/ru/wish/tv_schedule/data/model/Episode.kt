@@ -17,7 +17,8 @@ data class Episode(
     val runtime: Int?,
     @SerializedName("image") val image: Image?,
     val summary: String?,
-    val show: Show?
+    val show: Show?,
+    val country: String?
 )
 
 data class Image(

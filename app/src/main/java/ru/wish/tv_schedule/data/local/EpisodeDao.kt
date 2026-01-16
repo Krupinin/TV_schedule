@@ -12,9 +12,9 @@ interface EpisodeDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertEpisodes(episodes: List<Episode>)
 
-    @Query("SELECT * FROM episodes WHERE airdate = :date")
-    suspend fun getEpisodesByDate(date: String): List<Episode>
+    @Query("SELECT * FROM episodes WHERE country = :country AND airdate = :date")
+    suspend fun getEpisodesByCountryAndDate(country: String, date: String): List<Episode>
 
-    @Query("DELETE FROM episodes WHERE airdate = :date")
-    suspend fun deleteEpisodesByDate(date: String)
+    @Query("DELETE FROM episodes WHERE country = :country AND airdate = :date")
+    suspend fun deleteEpisodesByCountryAndDate(country: String, date: String)
 }
