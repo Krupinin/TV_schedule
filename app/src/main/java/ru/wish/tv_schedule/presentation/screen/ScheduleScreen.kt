@@ -37,7 +37,7 @@ fun ScheduleScreen(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text("Schedule for $country on $date", style = MaterialTheme.typography.headlineSmall)
+            Text("Schedule for $country on $date", style = MaterialTheme.typography.titleLarge)
             Button(onClick = { navController.popBackStack() }) {
                 Text("Back")
             }

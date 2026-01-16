@@ -4,6 +4,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -12,11 +13,16 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExposedDropdownMenuBox
 
 @RequiresApi(Build.VERSION_CODES.O) //Требует API уровня 26 (Android 8.0) из-за использования LocalDate и DateTimeFormatter
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun InputScreen(navController: NavController) {
-    var country by remember { mutableStateOf(TextFieldValue("")) }
+    val countries = listOf("ru", "us", "fr")
+    var country by remember { mutableStateOf("") }
+    var expanded by remember { mutableStateOf(false) }
     var date by remember { mutableStateOf(TextFieldValue(LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE))) }
 
     Column(
@@ -26,16 +32,45 @@ fun InputScreen(navController: NavController) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text("Enter Country and Date", style = MaterialTheme.typography.headlineMedium)
+        Text("TV Schedule by Krupinin", style = MaterialTheme.typography.headlineLarge)
+
+        Spacer(modifier = Modifier.height(128.dp))
+
+        Text("Enter Country and Date", style = MaterialTheme.typography.titleLarge)
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        OutlinedTextField(
-            value = country,
-            onValueChange = { country = it },
-            label = { Text("Country Code (e.g., US)") },
+        ExposedDropdownMenuBox(
+            expanded = expanded,
+            onExpandedChange = { expanded = !expanded },
             modifier = Modifier.fillMaxWidth()
-        )
+        ) {
+            OutlinedTextField(
+                value = country,
+                onValueChange = {},
+                readOnly = true,
+                label = { Text("Country Code") },
+                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .menuAnchor()
+            )
+            DropdownMenu(
+                expanded = expanded,
+                onDismissRequest = { expanded = false },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                countries.forEach { item ->
+                    DropdownMenuItem(
+                        text = { Text(item.uppercase()) },
+                        onClick = {
+                            country = item
+                            expanded = false
+                        }
+                    )
+                }
+            }
+        }
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -50,8 +85,8 @@ fun InputScreen(navController: NavController) {
 
         Button(
             onClick = {
-                if (country.text.isNotBlank() && date.text.isNotBlank()) {
-                    navController.navigate("schedule/${country.text}/${date.text}")
+                if (country.isNotBlank() && date.text.isNotBlank()) {
+                    navController.navigate("schedule/$country/${date.text}")
                 }
             },
             modifier = Modifier.fillMaxWidth()
