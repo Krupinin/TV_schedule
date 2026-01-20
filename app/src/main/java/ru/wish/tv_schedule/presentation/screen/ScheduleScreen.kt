@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import android.content.Intent
@@ -81,6 +82,16 @@ fun EpisodeItem(episode: Episode) {
             .padding(8.dp)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
+            episode.image?.medium?.let { imageUrl ->
+                AsyncImage(
+                    model = imageUrl,
+                    contentDescription = "Episode image",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(200.dp)
+                        .padding(bottom = 8.dp)
+                )
+            }
             Text("Show: ${episode.show?.name}", style = MaterialTheme.typography.titleMedium)
             Text("Episode name: ${episode.name}", style = MaterialTheme.typography.titleMedium)
             Text("Episode number: ${episode.number}", style = MaterialTheme.typography.bodySmall)
