@@ -7,12 +7,17 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import android.content.Intent
+import androidx.compose.foundation.clickable
 import ru.wish.tv_schedule.data.model.Episode
 import ru.wish.tv_schedule.domain.util.Resource
 import ru.wish.tv_schedule.presentation.viewmodel.ScheduleViewModel
+import androidx.core.net.toUri
 
 @Composable
 fun ScheduleScreen(
@@ -69,6 +74,7 @@ fun ScheduleScreen(
 
 @Composable
 fun EpisodeItem(episode: Episode) {
+    val context = LocalContext.current
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -80,7 +86,16 @@ fun EpisodeItem(episode: Episode) {
             Text("Episode number: ${episode.number}", style = MaterialTheme.typography.bodySmall)
             Text("Airtime: ${episode.airtime}", style = MaterialTheme.typography.bodySmall)
             Text("Runtime: ${episode.runtime} min", style = MaterialTheme.typography.bodySmall)
-            Text("Link: ${episode.url}", style = MaterialTheme.typography.bodySmall)
+            episode.url?.let { url ->
+                Text(
+                    text = "Link: $url",
+                    style = MaterialTheme.typography.bodySmall.copy(textDecoration = TextDecoration.Underline),
+                    color = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.clickable {
+                        context.startActivity(Intent(Intent.ACTION_VIEW, url.toUri()))
+                    }
+                )
+            }
             episode.summary?.let {
                 Text("Summary: ${it.replace(Regex("<[^>]*>"), "")}", style = MaterialTheme.typography.bodySmall)
             }
