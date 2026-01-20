@@ -75,10 +75,12 @@ fun EpisodeItem(episode: Episode) {
             .padding(8.dp)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
-            Text("Episode ${episode.number}: ${episode.name}", style = MaterialTheme.typography.titleMedium)
-            Text("Show: ${episode.show?.name}", style = MaterialTheme.typography.bodyMedium)
+            Text("Show: ${episode.show?.name}", style = MaterialTheme.typography.titleMedium)
+            Text("Episode name: ${episode.name}", style = MaterialTheme.typography.titleMedium)
+            Text("Episode number: ${episode.number}", style = MaterialTheme.typography.bodySmall)
             Text("Airtime: ${episode.airtime}", style = MaterialTheme.typography.bodySmall)
             Text("Runtime: ${episode.runtime} min", style = MaterialTheme.typography.bodySmall)
+            Text("Link: ${episode.url}", style = MaterialTheme.typography.bodySmall)
             episode.summary?.let {
                 Text("Summary: ${it.replace(Regex("<[^>]*>"), "")}", style = MaterialTheme.typography.bodySmall)
             }
