@@ -8,6 +8,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
@@ -15,6 +16,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import android.content.Intent
 import androidx.compose.foundation.clickable
+import ru.wish.tv_schedule.R
 import ru.wish.tv_schedule.data.model.Episode
 import ru.wish.tv_schedule.domain.util.Resource
 import ru.wish.tv_schedule.presentation.viewmodel.ScheduleViewModel
@@ -43,9 +45,9 @@ fun ScheduleScreen(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text("Schedule for $country on $date", style = MaterialTheme.typography.titleLarge)
+            Text(stringResource(R.string.schedule_for_country_on_date, country, date), style = MaterialTheme.typography.titleMedium)
             Button(onClick = { navController.popBackStack() }) {
-                Text("Back")
+                Text(stringResource(R.string.back))
             }
         }
 
@@ -66,7 +68,7 @@ fun ScheduleScreen(
             }
             is Resource.Error -> {
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    Text("Error: ${state.message}")
+                    Text(stringResource(R.string.error_message, state.message ?: ""))
                 }
             }
         }
@@ -85,21 +87,21 @@ fun EpisodeItem(episode: Episode) {
             episode.image?.medium?.let { imageUrl ->
                 AsyncImage(
                     model = imageUrl,
-                    contentDescription = "Episode image",
+                    contentDescription = stringResource(R.string.episode_image),
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(200.dp)
                         .padding(bottom = 8.dp)
                 )
             }
-            Text("Show: ${episode.show?.name}", style = MaterialTheme.typography.titleMedium)
-            Text("Episode name: ${episode.name}", style = MaterialTheme.typography.titleMedium)
-            Text("Episode number: ${episode.number}", style = MaterialTheme.typography.bodySmall)
-            Text("Airtime: ${episode.airtime}", style = MaterialTheme.typography.bodySmall)
-            Text("Runtime: ${episode.runtime} min", style = MaterialTheme.typography.bodySmall)
+            Text(stringResource(R.string.show, episode.show?.name ?: ""), style = MaterialTheme.typography.titleMedium)
+            Text(stringResource(R.string.episode_name, episode.name ?: ""), style = MaterialTheme.typography.titleMedium)
+            Text(stringResource(R.string.episode_number, episode.number ?: ""), style = MaterialTheme.typography.bodySmall)
+            Text(stringResource(R.string.airtime, episode.airtime ?: ""), style = MaterialTheme.typography.bodySmall)
+            Text(stringResource(R.string.runtime, episode.runtime ?: 0), style = MaterialTheme.typography.bodySmall)
             episode.url?.let { url ->
                 Text(
-                    text = "Link: $url",
+                    text = stringResource(R.string.link, url),
                     style = MaterialTheme.typography.bodySmall.copy(textDecoration = TextDecoration.Underline),
                     color = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.clickable {
@@ -108,7 +110,7 @@ fun EpisodeItem(episode: Episode) {
                 )
             }
             episode.summary?.let {
-                Text("Summary: ${it.replace(Regex("<[^>]*>"), "")}", style = MaterialTheme.typography.bodySmall)
+                Text(stringResource(R.string.summary, it.replace(Regex("<[^>]*>"), "")), style = MaterialTheme.typography.bodySmall)
             }
         }
     }

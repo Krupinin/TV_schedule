@@ -9,6 +9,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import java.time.Instant
@@ -20,6 +21,8 @@ import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.ui.text.style.TextAlign
+import ru.wish.tv_schedule.R
 
 @RequiresApi(Build.VERSION_CODES.O) //Требует API уровня 26 (Android 8.0) из-за использования LocalDate и DateTimeFormatter
 @OptIn(ExperimentalMaterial3Api::class)
@@ -36,13 +39,13 @@ fun InputScreen(navController: NavController) {
             .fillMaxSize()
             .padding(16.dp),
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Text("TV Schedule by Krupinin", style = MaterialTheme.typography.headlineLarge)
+        Text(stringResource(R.string.tv_schedule_by_krupinin), style = MaterialTheme.typography.headlineLarge, textAlign = TextAlign.Center)
 
         Spacer(modifier = Modifier.height(32.dp))
 
-        Text("Enter Country and Date", style = MaterialTheme.typography.titleLarge)
+        Text(stringResource(R.string.enter_country_and_date), style = MaterialTheme.typography.titleLarge)
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -55,7 +58,7 @@ fun InputScreen(navController: NavController) {
                 value = country,
                 onValueChange = {},
                 readOnly = true,
-                label = { Text("Country Code") },
+                label = { Text(stringResource(R.string.country_code)) },
                 trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -84,13 +87,13 @@ fun InputScreen(navController: NavController) {
             value = selectedDate.format(DateTimeFormatter.ISO_LOCAL_DATE),
             onValueChange = {},
             readOnly = true,
-            label = { Text("Date (YYYY-MM-DD)") },
+            label = { Text(stringResource(R.string.date_yyyy_mm_dd)) },
             modifier = Modifier.fillMaxWidth(),
             trailingIcon = {
                 IconButton(onClick = { showDatePicker = true }) {
                     Icon(
                         imageVector = Icons.Default.DateRange,
-                        contentDescription = "Select date"
+                        contentDescription = stringResource(R.string.select_date)
                     )
                 }
             }
@@ -107,7 +110,7 @@ fun InputScreen(navController: NavController) {
             },
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Get Schedule")
+            Text(stringResource(R.string.get_schedule))
         }
 
         if (showDatePicker) {
@@ -123,12 +126,12 @@ fun InputScreen(navController: NavController) {
                         }
                         showDatePicker = false
                     }) {
-                        Text("OK")
+                        Text(stringResource(R.string.ok))
                     }
                 },
                 dismissButton = {
                     TextButton(onClick = { showDatePicker = false }) {
-                        Text("Cancel")
+                        Text(stringResource(R.string.cancel))
                     }
                 }
             ) {

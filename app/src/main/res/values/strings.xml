@@ -1,3 +1,23 @@
 <resources>
     <string name="app_name">TV_schedule</string>
+    <string name="tv_schedule_by_krupinin">TV Schedule by Krupinin</string>
+    <string name="enter_country_and_date">Enter Country and Date</string>
+    <string name="country_code">Country Code</string>
+    <string name="date_yyyy_mm_dd">Date (YYYY-MM-DD)</string>
+    <string name="select_date">Select date</string>
+    <string name="get_schedule">Get Schedule</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="schedule_for_country_on_date">Schedule for %1$s on %2$s</string>
+    <string name="back">Back</string>
+    <string name="error_message">Error: %s</string>
+    <string name="episode_image">Episode image</string>
+    <string name="show">Show: %s</string>
+    <string name="episode_name">Episode name: %s</string>
+    <string name="episode_number">Episode number: %s</string>
+    <string name="airtime">Airtime: %s</string>
+    <string name="runtime">Runtime: %s min</string>
+    <string name="link">Link: %s</string>
+    <string name="summary">Summary: %s</string>
+    <string name="loading">Loading...</string>
 </resources>

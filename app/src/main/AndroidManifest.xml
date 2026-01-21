@@ -15,6 +15,7 @@
         android:theme="@style/Theme.TV_schedule">
         <activity
             android:name=".MainActivity"
+            android:configChanges="locale"
             android:exported="true"
             android:theme="@style/Theme.TV_schedule">
             <intent-filter>
